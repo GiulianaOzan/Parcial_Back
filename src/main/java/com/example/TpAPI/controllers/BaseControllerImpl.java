@@ -3,6 +3,7 @@ package com.example.TpAPI.controllers;
 import com.example.TpAPI.entities.Base;
 import com.example.TpAPI.services.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,15 @@ public abstract class BaseControllerImpl<E extends Base, S extends BaseServiceIm
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error, por favor intente mas tarde\"}");
 
+        }
+    }
+
+    @GetMapping("/paged")
+    public ResponseEntity<?> getAll(Pageable pageable){
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(servicio.findAll(pageable));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error, por favor intente mas tarde\"}");
         }
     }
     @GetMapping("/{id}")
